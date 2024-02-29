@@ -25,6 +25,7 @@ async function run() {
         const db = client.db('assignment');
         const collection = db.collection('users');
         const supplyCollection = db.collection('supplyCollection');
+        const donateCollection = db.collection('donateCollection');
 
         // User Registration
         app.post('/api/v1/register', async (req, res) => {
@@ -102,6 +103,11 @@ async function run() {
         app.post('/api/v1/create-supply', async(req,res)=>{
             const newItem = req.body;
             const result = await supplyCollection.insertOne(newItem);
+            res.send(result);
+          });
+        app.post('/api/v1/donate-amount', async(req,res)=>{
+            const newItem = req.body;
+            const result = await donateCollection.insertOne(newItem);
             res.send(result);
           });
 
