@@ -26,6 +26,9 @@ async function run() {
         const collection = db.collection('users');
         const supplyCollection = db.collection('supplyCollection');
         const donateCollection = db.collection('donateCollection');
+        const volunteerCollection = db.collection('volunteerCollection');
+        const testimonialCollection = db.collection('testimonialCollection');
+        const communityCollection = db.collection('communityCollection');
 
         // User Registration
         app.post('/api/v1/register', async (req, res) => {
@@ -85,7 +88,7 @@ async function run() {
             // const users = req.body;
             const result = await collection.find().toArray();
             res.send(result);
-        })
+        });
         app.get('/api/v1/all-supply', async(req, res)=>{
             // const users = req.body;
             const result = await supplyCollection.find().toArray();
@@ -105,13 +108,64 @@ async function run() {
             const result = await supplyCollection.insertOne(newItem);
             res.send(result);
           });
+          
+        //   donation related
+
         app.post('/api/v1/donate-amount', async(req,res)=>{
             const newItem = req.body;
             const result = await donateCollection.insertOne(newItem);
             res.send(result);
-          });
+        });
 
-          app.put('/api/v1/update-supply/:id', async(req, res)=>{
+        app.get('/api/v1/all-donation', async(req, res)=>{
+            
+            const result = await donateCollection.find().sort({ quantity: -1 }).toArray();
+            res.send(result);
+        });
+
+        // volunteer related
+
+        app.post('/api/v1/create-volunteer', async(req,res)=>{
+            const newItem = req.body;
+            const result = await volunteerCollection.insertOne(newItem);
+            res.send(result);
+        });
+
+        app.get('/api/v1/volunteers', async(req, res)=>{
+            // const users = req.body;
+            const result = await volunteerCollection.find().toArray();
+            res.send(result);
+        })
+
+        // testimonial related
+
+        app.post('/api/v1/create-testimonial', async(req,res)=>{
+            const newItem = req.body;
+            const result = await testimonialCollection.insertOne(newItem);
+            res.send(result);
+        });
+
+        app.get('/api/v1/testimonials', async(req, res)=>{
+            // const users = req.body;
+            const result = await testimonialCollection.find().toArray();
+            res.send(result);
+        });
+
+        // community related
+
+        app.post('/api/v1/create-community-post', async(req,res)=>{
+            const newItem = req.body;
+            const result = await communityCollection.insertOne(newItem);
+            res.send(result);
+        });
+
+        app.get('/api/v1/community-posts', async(req, res)=>{
+            // const users = req.body;
+            const result = await communityCollection.find().toArray();
+            res.send(result);
+        })
+          
+        app.put('/api/v1/update-supply/:id', async(req, res)=>{
             const id = req.params.id;
             const items = req.body;
             // console.log(id,items);
